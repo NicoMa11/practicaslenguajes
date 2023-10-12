@@ -1,0 +1,6 @@
+%ejercicio 3.1
+% La suma de una lista [X | Resto] es la suma de X y la suma de Resto.
+sumlist([X | Resto], S) :-
+    sumlist(Resto, RestoSum),
+    S is X + RestoSum.
+    
