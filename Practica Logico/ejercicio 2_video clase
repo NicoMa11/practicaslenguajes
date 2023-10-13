@@ -1,0 +1,38 @@
+% Predicado para calcular el porcentaje de exactitud entre dos listas
+porcentajeExactitud(CromosomaSujeto, CromosomaCandidato, Porcentaje) :-
+    length(CromosomaSujeto, Longitud),
+    compararListas(CromosomaSujeto, CromosomaCandidato, Iguales),
+    Porcentaje is (Iguales / Longitud) * 100.
+
+% Predicado para comparar dos listas y contar el numero de elementos iguales
+compararListas([], [], 0).
+compararListas([H1|T1], [H2|T2], Iguales) :-
+    (H1 = H2 -> compararListas(T1, T2, Resto), Iguales is Resto + 1 ; compararListas(T1, T2, Iguales)).
+
+% Predicado para encontrar la persona mas parecida a una muestra
+personaMasParecidaAMuestra(Muestra, ListaPersonas, Persona) :-
+    mejoresPorcentajes(Muestra, ListaPersonas, Porcentajes),
+    max_member(MaxPorcentaje, Porcentajes),
+    nth0(Indice, Porcentajes, MaxPorcentaje),
+    nth0(Indice, ListaPersonas, (_, Persona)).
+
+% Predicado para obtener la lista de porcentajes de exactitud para cada persona
+mejoresPorcentajes(_, [], []).
+mejoresPorcentajes(Muestra, [(Cromosoma, Nombre)|T], [Porcentaje|Resto]) :-
+    porcentajeExactitud(Muestra, Cromosoma, Porcentaje),
+    mejoresPorcentajes(Muestra, T, Resto).
+
+% Muestra y personas de ejemplo
+muestra([0, 2, 3, 4, 5, 11, 7, 8, 9, 10]).
+personas([
+    ([1, 2, 9, 4, 5, 0, 7, 8, 9, 10], 'Persona 1'),
+    ([1, 2, 3, 4, 5, 11, 7, 8, 9, 1], 'Persona 2'),
+    ([0, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'Persona 3'),
+    ([1, 2, 9, 4, 5, 0, 7, 8, 9, 10], 'Persona 4'),
+    ([1, 2, 3, 4, 5, 11, 7, 8, 9, 1], 'Persona 5'),
+    ([0, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'Persona 6'),
+    ([3, 2, 1, 4, 5, 6, 7, 8, 9, 10], 'Persona 7'),
+    ([0, 1, 2, 3, 4, 5, 6, 7, 0, 0], 'Persona 8'),
+    ([1, 2, 3, 4, 5, 6, 7, 1, 1, 1], 'Persona 9'),
+    ([2, 2, 3, 2, 5, 6, 7, 2, 9, 2], 'Persona 10'),
+]).
