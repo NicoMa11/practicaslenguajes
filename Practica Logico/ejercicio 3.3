@@ -1,0 +1,8 @@
+%ejercicio 3.3
+
+aplanar([], []).
+aplanar([X|Xs], Ys) :-
+    aplanar(X, Y),
+    aplanar(Xs, Ys1),
+    append(Y, Ys1, Ys).
+aplanar(X, [X]) :- not(is_list(X)).
