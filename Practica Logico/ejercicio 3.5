@@ -1,0 +1,6 @@
+%ejercicio 3.5
+sub_cadenas(Subcadena, Lista, Filtradas) :-
+    include(contains_subcadena(Subcadena), Lista, Filtradas).
+
+contains_subcadena(Subcadena, Cadena) :-
+    sub_atom(Cadena, _, _, _, Subcadena).
