@@ -1,2 +1,3 @@
+%ejercicio 3.2
 sub_conjunto([],_).
 sub_conjunto([X|Xs],Ys) :- member(X,Ys), sub_conjunto(Xs,Ys).
