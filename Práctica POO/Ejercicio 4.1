@@ -1,0 +1,103 @@
+from abc import ABC, abstractmethod
+
+# Clase abstracta que define la interfaz para elementos dibujables
+class Dibujable(ABC):
+    @abstractmethod
+    def dibujar(self):
+        pass
+
+# Clase para representar texto
+class Texto(Dibujable):
+    def __init__(self, contenido):
+        self._contenido = contenido
+
+    def dibujar(self):
+        print(f"Texto: {self._contenido}")
+
+    def obtener_contenido(self):
+        return self._contenido
+
+    def establecer_contenido(self, contenido):
+        self._contenido = contenido
+
+# Clase abstracta para objetos geométricos
+class ObjetoGeometrico(Dibujable):
+    @abstractmethod
+    def area(self):
+        pass
+
+# Clase para representar un círculo
+class Circulo(ObjetoGeometrico):
+    def __init__(self, radio):
+        self._radio = radio
+
+    def dibujar(self):
+        print(f"Círculo con radio {self._radio}")
+
+    def area(self):
+        return 3.14 * self._radio * self._radio
+
+    def obtener_radio(self):
+        return self._radio
+
+    def establecer_radio(self, radio):
+        self._radio = radio
+
+# Clase para representar un rectángulo
+class Rectangulo(ObjetoGeometrico):
+    def __init__(self, ancho, alto):
+        self._ancho = ancho
+        self._alto = alto
+
+    def dibujar(self):
+        print(f"Rectángulo con ancho {self._ancho} y alto {self._alto}")
+
+    def area(self):
+        return self._ancho * self._alto
+
+    def obtener_ancho(self):
+        return self._ancho
+
+    def establecer_ancho(self, ancho):
+        self._ancho = ancho
+
+    def obtener_alto(self):
+        return self._alto
+
+    def establecer_alto(self, alto):
+        self._alto = alto
+
+# Clase para representar un grupo de elementos dibujables
+class Grupo(Dibujable):
+    def __init__(self):
+        self._elementos = []
+
+    def dibujar(self):
+        print("Grupo:")
+        for elemento in self._elementos:
+            elemento.dibujar()
+
+    def agregar(self, elemento):
+        self._elementos.append(elemento)
+
+    def quitar(self, elemento):
+        self._elementos.remove(elemento)
+
+# Ejemplos
+texto = Texto("¡Hola, mundo!")
+circulo = Circulo(5)
+rectangulo = Rectangulo(3, 4)
+
+grupo1 = Grupo()
+grupo1.agregar(texto)
+grupo1.agregar(circulo)
+
+grupo2 = Grupo()
+grupo2.agregar(rectangulo)
+
+grupo_completo = Grupo()
+grupo_completo.agregar(grupo1)
+grupo_completo.agregar(grupo2)
+
+# Dibujar todo el documento
+grupo_completo.dibujar()
