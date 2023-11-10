@@ -1,0 +1,87 @@
+from datetime import datetime, timedelta
+
+class Socio:
+    def __init__(self, numero_socio, nombre, direccion):
+        self.numero_socio = numero_socio
+        self.nombre = nombre
+        self.direccion = direccion
+        self.libros_prestados = []
+
+    def __str__(self):
+        return f"Socio {self.numero_socio}: {self.nombre}"
+
+class Libro:
+    def __init__(self, codigo, titulo, autor, disponible=True):
+        self.codigo = codigo
+        self.titulo = titulo
+        self.autor = autor
+        self.disponible = disponible
+
+    def __str__(self):
+        estado = "disponible" if self.disponible else "prestado"
+        return f"Libro {self.codigo}: {self.titulo} ({self.autor}) - {estado}"
+
+class Prestamo:
+    def __init__(self, socio, libro, fecha):
+        self.socio = socio
+        self.libro = libro
+        self.fecha = fecha
+
+    def __str__(self):
+        return f"Prestamo - {self.socio} ha tomado prestado {self.libro} desde {self.fecha}"
+
+def socios_con_mas_de_tres_libros_prestados(socios):
+    return filter(lambda socio: len(socio.libros_prestados) > 3, socios)
+
+# Crear socios
+socio1 = Socio(1, "Yeison Marin", "La fortuna")
+socio2 = Socio(2, "Johana Vallejos", "Chachagua")
+socio3 = Socio(3, "Pamela Marin", "Santa Clara")
+socio4 = Socio(4,"Danna Vallejos", "Ciudad Quesada")
+
+# Crear libros
+libro1 = Libro(101, "Harry Potter", "J.K. Rowling")
+libro2 = Libro(102, "Cien años de soledad", "Gabriel Garcia Marquez")
+libro3 = Libro(103, "El Señor de los Anillos", "J.R.R. Tolkien")
+
+# Realizar préstamos
+fecha_prestamo = datetime.now()
+
+prestamo1 = Prestamo(socio1, libro1, fecha_prestamo)
+prestamo2 = Prestamo(socio2, libro2, fecha_prestamo)
+prestamo3 = Prestamo(socio3, libro1, fecha_prestamo)
+
+# Registrar préstamos en los socios y actualizar estado de los libros
+socio1.libros_prestados.append(prestamo1)
+libro1.disponible = False
+
+socio2.libros_prestados.append(prestamo2)
+libro2.disponible = False
+
+socio3.libros_prestados.append(prestamo3)
+libro3.disponible = False
+
+# Mostrar información
+print("Información de socios:")
+print(socio1)
+print(socio2)
+print(socio3)
+
+print("\nInformación de libros:")
+print(libro1)
+print(libro2)
+print(libro3)
+
+print("\nInformación de préstamos:")
+print(prestamo1)
+print(prestamo2)
+print(prestamo3)
+
+# Filtrar socios con más de 3 libros prestados
+socios = [socio1, socio2, socio3]
+# Filtrar socios con más de 3 libros prestados
+socios_con_mas_de_tres = list(socios_con_mas_de_tres_libros_prestados(socios + [socio3]))
+
+print("\nSocios con más de 3 libros prestados:")
+for socio in socios_con_mas_de_tres:
+    print(socio)
